@@ -1,0 +1,62 @@
+name: Market Agent
+version: "1.0.0"
+slug: market_agent_dashboard
+description: Private daily portfolio research, planning, history and notifications
+arch:
+  - aarch64
+  - amd64
+startup: application
+init: false
+homeassistant_api: true
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:chart-line
+panel_title: Market Agent
+options:
+  schedule_time: "07:30"
+  timezone: Europe/London
+  weekdays_only: true
+  run_on_start: true
+  delivery_provider: home_assistant
+  ha_notify_service: ""
+  whatsapp_provider: stdout
+  whatsapp_to: ""
+  twilio_account_sid: ""
+  twilio_auth_token: ""
+  twilio_whatsapp_from: ""
+  meta_access_token: ""
+  meta_phone_number_id: ""
+  meta_api_version: v23.0
+  meta_template_name: ""
+  meta_template_language: en_GB
+  openai_api_key: ""
+  openai_model: gpt-5.6-luna
+  next_investment_gbp: 1000
+  trading212_enabled: false
+  trading212_environment: live
+  trading212_api_key: ""
+  trading212_api_secret: ""
+schema:
+  schedule_time: str
+  timezone: str
+  weekdays_only: bool
+  run_on_start: bool
+  delivery_provider: list(home_assistant|whatsapp)
+  ha_notify_service: str?
+  whatsapp_provider: list(stdout|twilio|meta)
+  whatsapp_to: str?
+  twilio_account_sid: str?
+  twilio_auth_token: password
+  twilio_whatsapp_from: str?
+  meta_access_token: password
+  meta_phone_number_id: str?
+  meta_api_version: str
+  meta_template_name: str?
+  meta_template_language: str
+  openai_api_key: password
+  openai_model: str
+  next_investment_gbp: float
+  trading212_enabled: bool
+  trading212_environment: list(live|demo)
+  trading212_api_key: password
+  trading212_api_secret: password
