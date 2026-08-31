@@ -1,0 +1,70 @@
+configuration:
+  schedule_time:
+    name: Daily research time
+    description: Local time to run the daily market check, using HH:MM.
+  timezone:
+    name: Time zone
+    description: IANA time zone used for scheduling and report timestamps.
+  weekdays_only:
+    name: Weekdays only
+    description: Skip automatic runs on Saturday and Sunday.
+  run_on_start:
+    name: Run when the app starts
+    description: Create a fresh report immediately after startup.
+  delivery_provider:
+    name: Notification delivery
+    description: Send through Home Assistant or the optional WhatsApp integration.
+  ha_notify_service:
+    name: Home Assistant notify service
+    description: Optional service such as mobile_app_my_iphone. Leave empty to use all mobile app services.
+  whatsapp_provider:
+    name: WhatsApp provider
+    description: Optional Twilio or Meta delivery provider.
+  whatsapp_to:
+    name: WhatsApp recipient
+    description: Recipient number in international format.
+  twilio_account_sid:
+    name: Twilio account SID
+    description: Your own Twilio account identifier.
+  twilio_auth_token:
+    name: Twilio auth token
+    description: Your own Twilio secret token. This field is masked.
+  twilio_whatsapp_from:
+    name: Twilio WhatsApp sender
+    description: Your approved Twilio WhatsApp sender.
+  meta_access_token:
+    name: Meta access token
+    description: Your own Meta WhatsApp Cloud API token. This field is masked.
+  meta_phone_number_id:
+    name: Meta phone number ID
+    description: Phone number identifier from your Meta WhatsApp app.
+  meta_api_version:
+    name: Meta Graph API version
+    description: Graph API version used for WhatsApp requests.
+  meta_template_name:
+    name: Meta template name
+    description: Optional approved template for business-initiated notifications.
+  meta_template_language:
+    name: Meta template language
+    description: Language code for the approved Meta template.
+  openai_api_key:
+    name: OpenAI API key
+    description: Your own OpenAI API key for news and market research. This field is masked.
+  openai_model:
+    name: OpenAI model
+    description: Model used for opportunity discovery and research.
+  next_investment_gbp:
+    name: Next amount to plan
+    description: GBP amount used only to build the illustrative deployment plan. No order is placed.
+  trading212_enabled:
+    name: Use Trading 212 portfolio
+    description: Read the current portfolio using your read-only Trading 212 credentials.
+  trading212_environment:
+    name: Trading 212 environment
+    description: Choose live or demo.
+  trading212_api_key:
+    name: Trading 212 API key
+    description: Your own read-only API key. Do not grant order permissions. This field is masked.
+  trading212_api_secret:
+    name: Trading 212 API secret
+    description: Your own read-only API secret. This field is masked.
