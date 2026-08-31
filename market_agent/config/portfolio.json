@@ -1,0 +1,60 @@
+{
+  "portfolio_name": "My investment portfolio",
+  "base_currency": "GBP",
+  "timezone": "Europe/London",
+  "max_data_age_days": 5,
+  "buy_strategy": "allocation_only",
+  "capital_plan": {
+    "default_amount_gbp": 1000,
+    "core_target_weight": 0.80,
+    "minimum_new_core_weight": 0.80,
+    "risk_targets": {
+      "foundation": 0.80,
+      "medium_high": 0.15,
+      "very_high": 0.05
+    },
+    "risk_tickers": {
+      "foundation": ["VUAG.L", "VWRP.L", "VALL.L"],
+      "medium_high": [],
+      "very_high": []
+    },
+    "core_tickers": ["VUAG.L", "VWRP.L", "VALL.L"],
+    "primary_core_ticker": "VUAG.L",
+    "diversifier_ticker": "VWRP.L",
+    "primary_split": 0.80
+  },
+  "holdings": [
+    {
+      "ticker": "VUAG.L",
+      "name": "Vanguard S&P 500 UCITS ETF",
+      "bucket": "core",
+      "target_weight": 0.80,
+      "cost_basis": null,
+      "quantity": null,
+      "thesis": "Example diversified US large-company foundation fund. Replace this starter portfolio by connecting your own read-only Trading 212 account.",
+      "sell_rules": {
+        "below_ma200_days": 20,
+        "max_drawdown_from_cost": null
+      }
+    },
+    {
+      "ticker": "VWRP.L",
+      "name": "Vanguard FTSE All-World UCITS ETF",
+      "bucket": "core",
+      "target_weight": 0.20,
+      "cost_basis": null,
+      "quantity": null,
+      "thesis": "Example broad global diversifier. Replace this starter portfolio by connecting your own read-only Trading 212 account.",
+      "sell_rules": {
+        "below_ma200_days": 20,
+        "max_drawdown_from_cost": null
+      }
+    }
+  ],
+  "watchlist": [],
+  "buy_filters": {
+    "minimum_price": 2.0,
+    "minimum_average_dollar_volume": 5000000,
+    "maximum_daily_candidates": 3
+  }
+}
