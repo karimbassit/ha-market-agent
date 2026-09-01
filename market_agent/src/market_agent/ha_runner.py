@@ -66,6 +66,8 @@ def runtime_environment(options: dict) -> dict[str, str]:
         "trading212_api_secret": "TRADING212_API_SECRET",
         "trading212_environment": "TRADING212_ENVIRONMENT",
         "trading212_enabled": "TRADING212_ENABLED",
+        "portfolio_provider": "PORTFOLIO_PROVIDER",
+        "hargreaves_lansdown_holdings_json": "HARGREAVES_LANSDOWN_HOLDINGS_JSON",
         "next_investment_gbp": "NEXT_INVESTMENT_GBP",
     }
     env["DELIVERY_PROVIDER"] = str(options.get("delivery_provider", "home_assistant"))
