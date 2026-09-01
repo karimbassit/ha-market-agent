@@ -12,6 +12,18 @@ Create an OpenAI API key in your own OpenAI API account and paste it into **Open
 
 Create a Trading 212 API key and secret with only account and portfolio read permissions. Do not grant order permissions. Paste both values into the masked fields, enable Trading 212, and choose the live or demo environment. The app reads open equity positions; it contains no order-placement code.
 
+### Hargreaves Lansdown
+
+HL does not provide a public API for ISA, SIPP, Fund & Share or other investment holdings. Its Open Banking API is limited to the cash hub in Active Savings. Choose **Hargreaves Lansdown** under **Portfolio provider**, then paste a JSON list into **Hargreaves Lansdown holdings**. Never enter your HL username, password, memorable information or security code.
+
+Minimum example:
+
+```json
+[{"ticker":"VUAG.L","name":"Vanguard S&P 500","quantity":10,"average_price_gbp":80.25}]
+```
+
+Use Yahoo-style tickers such as `VUAG.L`, `VWRP.L`, `AAPL`, or `ASML.AS`. For London listings quoted in GBP or pence, the app refreshes the GBP market value from daily market data. For a foreign-currency listing, also supply `market_value_gbp`; update that amount after trades or when you need an exact broker valuation. The importer is manual and read-only.
+
 ### Notifications
 
 Home Assistant notification delivery is enabled by default. Leave **Home Assistant notify service** empty to notify every discovered `mobile_app_*` service, or enter one service name such as `mobile_app_my_iphone`. A persistent notification is always created in Home Assistant.
