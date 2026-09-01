@@ -1,6 +1,6 @@
 [project]
 name = "home-assistant-market-agent"
-version = "1.0.0"
+version = "1.1.0"
 description = "Daily, auditable portfolio dashboard for Home Assistant"
 requires-python = ">=3.11"
 dependencies = []
