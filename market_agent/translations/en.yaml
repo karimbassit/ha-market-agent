@@ -56,6 +56,9 @@ configuration:
   next_investment_gbp:
     name: Next amount to plan
     description: GBP amount used only to build the illustrative deployment plan. No order is placed.
+  portfolio_provider:
+    name: Portfolio provider
+    description: Choose starter data, automatic Trading 212, or manually supplied Hargreaves Lansdown holdings.
   trading212_enabled:
     name: Use Trading 212 portfolio
     description: Read the current portfolio using your read-only Trading 212 credentials.
@@ -68,3 +71,6 @@ configuration:
   trading212_api_secret:
     name: Trading 212 API secret
     description: Your own read-only API secret. This field is masked.
+  hargreaves_lansdown_holdings_json:
+    name: Hargreaves Lansdown holdings
+    description: Manual JSON list. Example [{"ticker":"VUAG.L","name":"Vanguard S&P 500","quantity":10,"average_price_gbp":80.25}]. Never enter HL login details.
