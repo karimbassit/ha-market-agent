@@ -787,6 +787,7 @@ def _page(report_path: Path, evidence_path: Path, history_dir: Path = Path("/dat
         history_html = '<h2 class="sheet-label">Editions<span class="count">0</span></h2><section class="sheet"><p class="empty">Daily history begins after a successful run.</p></section>'
     summary = html.escape(str(evidence.get("market_summary", "Run the agent to create a source-backed market briefing.")))
     source = html.escape(str(evidence.get("portfolio_source", "Starter configuration")))
+    source_short = "Hargreaves Lansdown" if "Hargreaves Lansdown" in source else ("Trading 212" if "Trading 212" in source else "Manual setup")
     position_count = len(positions)
     position_word = "position" if position_count == 1 else "positions"
     edition = _edition_date(evidence.get("generated_at"), timezone)
@@ -825,12 +826,12 @@ const poll=async()=>{try{const response=await fetch('./status',{cache:'no-store'
   <h1 class="edition">{edition_html}</h1>
   <span class="byline">{byline}</span>
   <div class="money">
-    <div class="money-value"><span class="money-label">Total portfolio value</span>{_hero_value(portfolio_total, portfolio_currency)}<span class="money-sub">{position_count} live {position_word} · Trading 212 · read-only</span></div>
+    <div class="money-value"><span class="money-label">Total portfolio value</span>{_hero_value(portfolio_total, portfolio_currency)}<span class="money-sub">{position_count} {position_word} · {source_short} · read-only</span></div>
     {_allocation_bar(positions, portfolio_total)}
   </div>
 </section>
 <div class="view {'active' if active_tab == 'today' else ''}">{_tape(positions)}<h2 class="sheet-label">Market brief</h2><section class="sheet lede"><p>{summary}</p></section>{''.join(groups)}{f'<section class="warn-sheet">{_icon("alert")}<div><strong>Data notes</strong><ul>{warnings}</ul></div></section>' if warnings else ''}<p class="smallprint">Advisory screen only · verify prices, research and suitability before acting.</p></div>
-<div class="view {'active' if active_tab == 'portfolio' else ''}">{portfolio_html}<p class="smallprint">Trading 212 connection is read-only. This app contains no order endpoint.</p></div>
+<div class="view {'active' if active_tab == 'portfolio' else ''}">{portfolio_html}<p class="smallprint">Portfolio access is read-only. Hargreaves Lansdown holdings are entered manually because HL has no investment-portfolio API. This app contains no order endpoint.</p></div>
 <div class="view {'active' if active_tab == 'plan' else ''}">{plan_html}<p class="smallprint">Research informs the reasons and DCA pace; allocation guardrails remain deterministic.</p></div>
 <div class="view {'active' if active_tab == 'research' else ''}">{research_html}<p class="smallprint">OpenAI summarises web research; deterministic rules remain authoritative.</p></div>
 <div class="view {'active' if active_tab == 'history' else ''}">{history_html}<p class="smallprint">Saved locally on Home Assistant · newest first · up to 120 runs.</p></div>
