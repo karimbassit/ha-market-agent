@@ -32,6 +32,12 @@ class ReleaseSecurityTests(unittest.TestCase):
             self.assertRegex(config, rf"(?m)^  {re.escape(name)}: \"\"$")
             self.assertRegex(config, rf"(?m)^  {re.escape(name)}: password$")
 
+    def test_hl_option_never_requests_login_credentials(self) -> None:
+        config = (APP_ROOT / "config.yaml").read_text(encoding="utf-8").lower()
+        self.assertIn("hargreaves_lansdown_holdings_json", config)
+        self.assertNotIn("hargreaves_lansdown_password", config)
+        self.assertNotIn("hargreaves_lansdown_username", config)
+
     def test_no_known_secret_shapes_are_committed(self) -> None:
         patterns = (
             re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
