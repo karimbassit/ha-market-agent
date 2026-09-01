@@ -7,6 +7,8 @@ from unittest.mock import patch
 
 from market_agent.llm import research_with_openai
 from market_agent.trading212 import live_holdings, yahoo_ticker
+from market_agent.hargreaves_lansdown import HargreavesLansdownError, manual_holdings, refresh_gbp_values
+from market_agent.indicators import Snapshot
 
 
 class _Response:
@@ -66,6 +68,33 @@ class IntegrationTests(unittest.TestCase):
             result = Trading212Client(opener=opener).instruments()
         self.assertEqual(result[0]["ticker"], "AAPL_US_EQ")
         self.assertTrue(calls[0].endswith("/api/v0/equity/metadata/instruments"))
+
+    def test_hl_manual_holdings_are_read_without_credentials(self) -> None:
+        holdings, portfolio = manual_holdings(json.dumps([{
+            "ticker": "VUAG.L", "name": "Vanguard S&P 500", "quantity": 10,
+            "average_price_gbp": 80.25, "market_value_gbp": 900,
+        }]))
+        self.assertEqual(holdings[0]["bucket"], "core")
+        self.assertEqual(portfolio[0]["broker"], "Hargreaves Lansdown")
+        self.assertEqual(portfolio[0]["total_cost"], 802.5)
+
+    def test_hl_gbpence_quote_refreshes_portfolio_in_gbp(self) -> None:
+        _, portfolio = manual_holdings('[{"ticker":"VUAG.L","quantity":2,"average_price_gbp":80}]')
+        snap = Snapshot(
+            ticker="VUAG.L", source_ticker="VUAG.L", date="2026-08-31",
+            timestamp="2026-08-31T16:30:00+00:00", currency="GBp", price=9000,
+            change_1d=0, change_20d=0, ma20=9000, ma50=9000, ma200=9000,
+            rsi14=50, macd=0, macd_signal=0, avg_volume_20d=1000,
+            avg_dollar_volume_20d=9000000, below_ma200_days=0, distance_from_52w_high=0,
+        )
+        notes = refresh_gbp_values(portfolio, {"VUAG.L": snap})
+        self.assertEqual(notes, [])
+        self.assertEqual(portfolio[0]["current_price"], 90)
+        self.assertEqual(portfolio[0]["market_value"], 180)
+
+    def test_hl_import_rejects_missing_ticker(self) -> None:
+        with self.assertRaises(HargreavesLansdownError):
+            manual_holdings('[{"quantity":2}]')
 
 
 if __name__ == "__main__":
