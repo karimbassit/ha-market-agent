@@ -4,7 +4,7 @@ A private daily market-research and portfolio-planning app for Home Assistant Gr
 
 ## What it does
 
-- Reads your Trading 212 equity positions using credentials you provide with read-only permissions.
+- Reads Trading 212 equity positions through its read-only API, or accepts manually supplied Hargreaves Lansdown holdings.
 - Checks daily prices and candles and rejects missing or stale data.
 - Optionally uses your OpenAI API key for current, source-backed news research and broad opportunity discovery.
 - Explains why each holding is marked keep, review, or sell in simple language.
