@@ -1,5 +1,5 @@
 name: Market Agent
-version: "1.0.0"
+version: "1.1.0"
 slug: market_agent_dashboard
 description: Private daily portfolio research, planning, history and notifications
 arch:
@@ -32,10 +32,12 @@ options:
   openai_api_key: ""
   openai_model: gpt-5.6-luna
   next_investment_gbp: 1000
+  portfolio_provider: starter
   trading212_enabled: false
   trading212_environment: live
   trading212_api_key: ""
   trading212_api_secret: ""
+  hargreaves_lansdown_holdings_json: "[]"
 schema:
   schedule_time: str
   timezone: str
@@ -56,7 +58,9 @@ schema:
   openai_api_key: password
   openai_model: str
   next_investment_gbp: float
+  portfolio_provider: list(starter|trading212|hargreaves_lansdown)
   trading212_enabled: bool
   trading212_environment: list(live|demo)
   trading212_api_key: password
   trading212_api_secret: password
+  hargreaves_lansdown_holdings_json: str
