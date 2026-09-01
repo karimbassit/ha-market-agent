@@ -18,6 +18,7 @@ from .research import build_research
 from .signals import Signal, holding_signal, watchlist_signal
 from .delivery import send
 from .trading212 import Trading212Client, Trading212Error, live_holdings, yahoo_ticker
+from .hargreaves_lansdown import HargreavesLansdownError, manual_holdings, refresh_gbp_values
 
 
 def _progress(stage: str, detail: str, percent: int) -> None:
@@ -50,7 +51,10 @@ def run(args: argparse.Namespace) -> tuple[str, dict]:
     portfolio_source = "starter configuration"
     runtime_holdings = config["holdings"]
     broker_client: Trading212Client | None = None
-    if os.getenv("TRADING212_ENABLED", "false").lower() == "true":
+    provider = os.getenv("PORTFOLIO_PROVIDER", "starter").lower()
+    if provider == "starter" and os.getenv("TRADING212_ENABLED", "false").lower() == "true":
+        provider = "trading212"
+    if provider == "trading212":
         try:
             broker_client = Trading212Client()
             runtime_holdings, portfolio_positions = live_holdings(
@@ -64,6 +68,18 @@ def run(args: argparse.Namespace) -> tuple[str, dict]:
                 raise Trading212Error("Trading 212 returned no open equity positions")
             portfolio_source = "Trading 212 · read-only live portfolio"
         except Trading212Error as exc:
+            errors.append(f"{exc}; using the local fallback portfolio")
+            runtime_holdings = config["holdings"]
+    elif provider == "hargreaves_lansdown":
+        try:
+            runtime_holdings, portfolio_positions = manual_holdings(
+                os.getenv("HARGREAVES_LANSDOWN_HOLDINGS_JSON", "[]"),
+                config.get("holdings"),
+                config.get("capital_plan", {}).get("core_tickers"),
+                str(config.get("base_currency", "GBP")),
+            )
+            portfolio_source = "Hargreaves Lansdown · manual holdings · market-priced"
+        except HargreavesLansdownError as exc:
             errors.append(f"{exc}; using the local fallback portfolio")
             runtime_holdings = config["holdings"]
     holdings_by_ticker = {item["ticker"]: item for item in runtime_holdings}
@@ -138,6 +154,9 @@ def run(args: argparse.Namespace) -> tuple[str, dict]:
             snapshots[ticker] = replace(snapshots[proxy], ticker=ticker)
             bars_by_ticker[ticker] = bars_by_ticker[proxy]
             errors.append(f"{ticker}: insufficient history; signals use labeled {proxy} proxy data")
+
+    if provider == "hargreaves_lansdown" and portfolio_positions:
+        errors.extend(refresh_gbp_values(portfolio_positions, snapshots))
 
     holding_signals = [holding_signal(item, snapshots[ticker]) for ticker, item in holdings_by_ticker.items() if ticker in snapshots]
     minimum_price = float(config["buy_filters"]["minimum_price"])
